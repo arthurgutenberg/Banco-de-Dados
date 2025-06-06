@@ -2,6 +2,8 @@
 CREATE DATABASE caravana_de_grayhlander;
 USE caravana_de_grayhlander;
 
+USE caravana_de_grayhlander;
+
 -- Tabela de expedições
 CREATE TABLE expedicao (
     idexpedicao INT PRIMARY KEY AUTO_INCREMENT, 
