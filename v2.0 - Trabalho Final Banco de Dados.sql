@@ -144,6 +144,11 @@ CREATE TABLE ingrediente_magico (
 CREATE TABLE visitante (
     idvisitante INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
+    raca ENUM(
+        'humano','elfo','anao','homem-fera','orc','halfling',
+        'reptiliano','gnomo','draconato','meio-elfo','meio-orc',
+        'satiro','centauro','minotauro'
+    ) NOT NULL,
     reino_origem VARCHAR(100),
     email VARCHAR(100),
     deseja_receber_novidades BOOLEAN DEFAULT FALSE
