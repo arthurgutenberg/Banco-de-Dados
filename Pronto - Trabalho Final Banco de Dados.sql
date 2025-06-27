@@ -9,7 +9,7 @@ CREATE TABLE expedicao (
     reino_de_destino VARCHAR(100),
     data_de_chegada DATE NOT NULL,
     data_de_partida DATE NOT NULL,
-    visitantes_estimados VARCHAR(10000)
+    visitantes_estimados INT -- corrigido para tipo numérico
 );
 
 -- Tabela de comerciantes
@@ -24,22 +24,15 @@ CREATE TABLE comerciante (
     especializacao VARCHAR(100),
     cidade_natal VARCHAR(100),
     contato_magico VARCHAR(100),
-    tipo_acesso ENUM('gratuito', 'pago') NOT NULL
-);
-
--- Classificação dos comerciantes
-CREATE TABLE classificacao_comerciante (
-    idclassificacao_comerciante INT PRIMARY KEY AUTO_INCREMENT,
-    fk_idcomerciante INT NOT NULL,
-    classificacao ENUM('S','A','B','C','D','E','F') NOT NULL,
-    FOREIGN KEY (fk_idcomerciante) REFERENCES comerciante(idcomerciante)
+    tipo_acesso ENUM('gratuito', 'pago') NOT NULL,
+    classificacao ENUM('S','A','B','C','D','E','F') NOT NULL -- movido aqui
 );
 
 -- Certificados de participação
 CREATE TABLE certificado_participacao (
     idcertificado_participacao INT PRIMARY KEY AUTO_INCREMENT,
-    id_comerciante INT NOT NULL,
-    id_expedicao INT NOT NULL,
+    fk_idcomerciante INT NOT NULL,
+    fk_idexpedicao INT NOT NULL,
     data_emissao DATE NOT NULL,
     FOREIGN KEY (fk_idcomerciante) REFERENCES comerciante(idcomerciante),
     FOREIGN KEY (fk_idexpedicao) REFERENCES expedicao(idexpedicao)
@@ -73,7 +66,6 @@ CREATE TABLE produto (
 
 -- Tabelas específicas de produtos
 CREATE TABLE roupa_magica (
-    idroupa_magica INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     tipo ENUM('manto', 'chapéu', 'botas', 'luvas', 'túnica', 'capa') NOT NULL,
     bonus_magico TEXT,
@@ -82,7 +74,6 @@ CREATE TABLE roupa_magica (
 );
 
 CREATE TABLE armadura (
-    idarmadura INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     tipo ENUM('leve', 'média', 'pesada', 'escudo') NOT NULL,
     defesa_fisica INT,
@@ -92,7 +83,6 @@ CREATE TABLE armadura (
 );
 
 CREATE TABLE alimento_magico (
-    idalimento_magico INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     tipo ENUM('comida', 'bebida', 'doce', 'poção comestível') NOT NULL,
     efeito TEXT,
@@ -102,7 +92,6 @@ CREATE TABLE alimento_magico (
 );
 
 CREATE TABLE pocao (
-    idpocao INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     tipo ENUM('cura', 'mana', 'veneno', 'visão', 'força') NOT NULL,
     duracao_min INT,
@@ -111,7 +100,6 @@ CREATE TABLE pocao (
 );
 
 CREATE TABLE grimorio (
-    idgrimorio INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     escola_magia ENUM('fogo', 'gelo', 'cura', 'ilusão', 'transmutação', 'necromancia') NOT NULL,
     nivel_requerido INT,
@@ -120,7 +108,6 @@ CREATE TABLE grimorio (
 );
 
 CREATE TABLE artefato (
-    idartefato INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     uso_principal VARCHAR(100),
     tempo_recarga_min INT,
@@ -129,7 +116,6 @@ CREATE TABLE artefato (
 );
 
 CREATE TABLE amuleto (
-    idamuleto INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     efeito_passivo TEXT,
     material VARCHAR(100),
@@ -138,7 +124,6 @@ CREATE TABLE amuleto (
 );
 
 CREATE TABLE ingrediente_magico (
-    idingrediente magico INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT PRIMARY KEY,
     origem ENUM('animal', 'vegetal', 'mineral', 'místico') NOT NULL,
     raro BOOLEAN DEFAULT FALSE,
@@ -161,7 +146,7 @@ CREATE TABLE visitante (
 );
 
 -- Registro de compras
-CREATE TABLE registo_compra (
+CREATE TABLE registro_compra (
     idregistro_compra INT PRIMARY KEY AUTO_INCREMENT,
     id_visitante INT NOT NULL,
     id_produto INT NOT NULL,
